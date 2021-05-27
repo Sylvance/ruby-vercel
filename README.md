@@ -1,6 +1,6 @@
 # Vercellus
 
-A ruby gem for Vercel API.
+A ruby gem for the Vercel API.
 
 ## Installation
 
@@ -20,7 +20,7 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Add the following.
 
 ## Development
 

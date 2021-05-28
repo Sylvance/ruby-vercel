@@ -8,8 +8,8 @@ module Vercellus
           "https://api.vercel.com/#{url}",
           params: params,
           headers: {
-            Content-Type: 'application/json',
-            Authorization: "Bearer #{Vercellus.configuration.token}"
+            'Content-Type': 'application/json',
+            'Authorization': "Bearer #{Vercellus.configuration.token}"
           }
         )
 
@@ -24,13 +24,12 @@ module Vercellus
           body: body.to_json,
           params: params,
           headers: {
-            Content-Type: 'application/json',
-            Authorization: "Bearer #{Vercellus.configuration.token}"
+            'Content-Type': 'application/json',
+            'Authorization': "Bearer #{Vercellus.configuration.token}"
           }
         )
 
         data = JSON.parse(response.body)
-        return data[key] if key
         return data
       end
 
@@ -39,8 +38,8 @@ module Vercellus
           "https://api.vercel.com/#{url}",
           params: params,
           headers: {
-            Content-Type: 'application/json',
-            Authorization: "Bearer #{Vercellus.configuration.token}"
+            'Content-Type': 'application/json',
+            'Authorization': "Bearer #{Vercellus.configuration.token}"
           }
         )
 

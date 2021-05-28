@@ -17,8 +17,8 @@ RSpec.configure do |config|
   config.before(:all) do
     Dotenv.load(File.expand_path("../.env.test.local", __dir__))
 
-    Vercellus.configure do |config|
-      config.token = ENV["VERCELLUS_TOKEN"] || "vercellus_test_token"
+    Vercellus.configure do |vercellus_config|
+      vercellus_config.token = ENV["VERCELLUS_TOKEN"] || "vercellus_test_token"
     end
   end
 end

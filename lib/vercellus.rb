@@ -8,9 +8,10 @@ require_relative "vercellus/errors/configuration"
 require_relative "vercellus/utils/request"
 require_relative "vercellus/version"
 
+# Vercellus is a ruby gem for the vercel api. Check here https://vercel.com/docs/api .
 module Vercellus
   class << self
-    attr_accessor :configuration
+    attr_writer :configuration
   end
 
   def self.configuration

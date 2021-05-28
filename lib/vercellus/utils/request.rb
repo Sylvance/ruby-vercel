@@ -1,9 +1,13 @@
-module Vercellus
-  module Utils
-    module Request
-      extend self
+# frozen_string_literal: true
 
-      def get(url, key, params = {})
+module Vercellus
+  # Utility modules for Vercellus
+  module Utils
+    # Utility request module for Vercellus
+    module Request
+      module_function
+
+      def get(url, params = {})
         response = Faraday.get(
           "https://api.vercel.com/#{url}",
           params: params,
@@ -13,10 +17,7 @@ module Vercellus
           }
         )
 
-        data = JSON.parse(response.body)
-        return data[key] if key
-
-        data
+        JSON.parse(response.body)
       end
 
       def post(url, params = {}, body = {})
@@ -33,7 +34,7 @@ module Vercellus
         JSON.parse(response.body)
       end
 
-      def delete(url, key, params = {})
+      def delete(url, params = {})
         response = Faraday.delete(
           "https://api.vercel.com/#{url}",
           params: params,
@@ -43,10 +44,7 @@ module Vercellus
           }
         )
 
-        data = JSON.parse(response.body)
-        return data[key] if key
-
-        data
+        JSON.parse(response.body)
       end
     end
   end

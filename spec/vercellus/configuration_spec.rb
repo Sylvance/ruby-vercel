@@ -1,15 +1,17 @@
 # frozen_string_literal: true
 
 RSpec.describe Vercellus::Configuration do
+  let(:token) { ENV['VERCELLUS_TOKEN'] || 'vercellus_test_token' }
+
   before do
     Vercellus.configure do |config|
-      config.token = ENV['VERCELLUS_TOKEN'] || 'vercellus_test_token'
+      config.token = token
     end
   end
 
   context 'with configuration block' do
     it 'returns the correct token' do
-      expect(Vercellus.configuration.token).to eq(ENV['VERCELLUS_TOKEN'])
+      expect(Vercellus.configuration.token).to eq(token)
     end
   end
 
@@ -25,7 +27,7 @@ RSpec.describe Vercellus::Configuration do
 
   context '#reset' do
     it 'resets configured values' do
-      expect(Vercellus.configuration.token).to eq(ENV['VERCELLUS_TOKEN'])
+      expect(Vercellus.configuration.token).to eq(token)
 
       Vercellus.reset
 

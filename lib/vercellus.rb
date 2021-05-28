@@ -12,8 +12,6 @@ module Vercellus
     attr_accessor :configuration
   end
 
-  class Error < StandardError; end
-
   def self.configuration
     @configuration ||= Configuration.new
   end

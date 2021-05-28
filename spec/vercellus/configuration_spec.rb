@@ -3,7 +3,7 @@
 RSpec.describe Vercellus::Configuration do
   before do
     Vercellus.configure do |config|
-      config.token = ENV['VERCELLUS_TOKEN']
+      config.token = ENV['VERCELLUS_TOKEN'] || 'vercellus_test_token'
     end
   end
 

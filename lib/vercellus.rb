@@ -1,9 +1,10 @@
 # frozen_string_literal: true
-require 'json'
-require 'faraday'
 
-require_relative 'vercellus/configuration'
-require_relative 'vercellus/errors/configuration'
+require "json"
+require "faraday"
+
+require_relative "vercellus/configuration"
+require_relative "vercellus/errors/configuration"
 require_relative "vercellus/utils/request"
 require_relative "vercellus/version"
 

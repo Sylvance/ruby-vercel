@@ -9,7 +9,7 @@ RSpec.describe Vercellus::Utils::Request do
     it "does a http get request with Faraday gem" do
       expect(Faraday).to receive(:get).with("https://api.vercel.com/url", headers: headers,
                                                                           params: params).and_return(response)
-      Vercellus::Utils::Request.get('url', nil, params)
+      Vercellus::Utils::Request.get("url", nil, params)
     end
   end
 
@@ -19,7 +19,7 @@ RSpec.describe Vercellus::Utils::Request do
     it "does a http post request with Faraday gem" do
       expect(Faraday).to receive(:post).with("https://api.vercel.com/url", headers: headers, params: params,
                                                                            body: body.to_json).and_return(response)
-      Vercellus::Utils::Request.post('url', params, body)
+      Vercellus::Utils::Request.post("url", params, body)
     end
   end
 
@@ -27,7 +27,7 @@ RSpec.describe Vercellus::Utils::Request do
     it "does a http delete request with Faraday gem" do
       expect(Faraday).to receive(:delete).with("https://api.vercel.com/url", headers: headers,
                                                                              params: params).and_return(response)
-      Vercellus::Utils::Request.delete('url', nil, params)
+      Vercellus::Utils::Request.delete("url", nil, params)
     end
   end
 end

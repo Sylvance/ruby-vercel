@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe Vercellus::Configuration do
-  let(:token) { ENV['VERCELLUS_TOKEN'] || 'vercellus_test_token' }
+  let(:token) { ENV["VERCELLUS_TOKEN"] || "vercellus_test_token" }
 
   before do
     Vercellus.configure do |config|
@@ -9,24 +9,22 @@ RSpec.describe Vercellus::Configuration do
     end
   end
 
-  context 'with configuration block' do
-    it 'returns the correct token' do
+  context "with configuration block" do
+    it "returns the correct token" do
       expect(Vercellus.configuration.token).to eq(token)
     end
   end
 
-  context 'without configuration block' do
-    before do
-      Vercellus.reset
-    end
+  context "without configuration block" do
+    before { Vercellus.reset }
 
-    it 'raises a configuration error for token' do
+    it "raises a configuration error for token" do
       expect { Vercellus.configuration.token }.to raise_error(Vercellus::Errors::Configuration)
     end
   end
 
-  context '#reset' do
-    it 'resets configured values' do
+  context "#reset" do
+    it "resets configured values" do
       expect(Vercellus.configuration.token).to eq(token)
 
       Vercellus.reset

@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require "dotenv"
 require "vercellus"
 
 RSpec.configure do |config|
@@ -11,5 +12,13 @@ RSpec.configure do |config|
 
   config.expect_with :rspec do |c|
     c.syntax = :expect
+  end
+
+  config.before(:all) do
+    Dotenv.load(File.expand_path("../../.env.test.local", __FILE__))
+
+    Vercellus.configure do |config|
+      config.token = ENV['VERCELLUS_TOKEN']
+    end
   end
 end

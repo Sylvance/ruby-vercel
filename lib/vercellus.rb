@@ -5,6 +5,7 @@ require "faraday"
 
 require_relative "vercellus/configuration"
 require_relative "vercellus/errors/configuration"
+require_relative "vercellus/user"
 require_relative "vercellus/utils/request"
 require_relative "vercellus/version"
 

@@ -1,4 +1,7 @@
 # frozen_string_literal: true
+require 'net/http'
+require 'openssl'
+require 'uri'
 
 module Vercellus
   # Utility modules for Vercellus
@@ -8,16 +11,17 @@ module Vercellus
       module_function
 
       def get(url, params = {})
-        response = Faraday.get(
-          "https://api.vercel.com/#{url}",
-          params: params,
-          headers: {
-            'Content-Type': "application/json",
-            'Authorization': "Bearer #{Vercellus.configuration.token}"
-          }
-        )
+        url = URI("https://api.vercel.com/#{url}")
 
-        JSON.parse(response.body)
+        http = Net::HTTP.new(url.host, url.port)
+        http.use_ssl = true
+        http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+
+        request = Net::HTTP::Get.new(url)
+        request["Authorization"] = "Bearer #{Vercellus.configuration.token}"
+
+        response = http.request(request)
+        JSON.parse(response.read_body)
       end
 
       def post(url, params = {}, body = {})

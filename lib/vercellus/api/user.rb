@@ -6,19 +6,21 @@ module Vercellus
   # Gets the authenticated user `https://vercel.com/docs/api#endpoints/user/get-the-authenticated-user`:
   #
   # ```
-  # Vercellus::User.get
+  # Vercellus::API::User.get
   # ```
   #
-  class User
-    def self.get
-      new.get
-    end
+  module API
+    class User
+      def self.get
+        new.get
+      end
 
-    def initialize; end
+      def initialize; end
 
-    def get
-      url = 'www/user'
-      Vercellus::Utils::Request.get(url)
+      def get
+        url = 'www/user'
+        ::Vercellus::Utils::Request.get(url)
+      end
     end
   end
 end

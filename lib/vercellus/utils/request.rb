@@ -21,13 +21,10 @@ module Vercellus
         JSON.parse(response.read_body)
       end
 
-      def post(url, body, x_now_digest = nil)
+      def post(url, body, headers)
         uri = URI("#{BASE_URL}#{url}")
         http = setup_http(uri)
-        request = setup_request(uri, "Post")
-        body = body.is_a?(Hash) ? JSON.dump(body) : body
-        request.body = body
-        request["X-Now-Digest"]  = x_now_digest if x_now_digest
+        request = setup_request(uri, "Post", body, headers)
 
         response = http.request(request)
         JSON.parse(response.read_body)
@@ -60,10 +57,18 @@ module Vercellus
           http
         end
 
-        def setup_request(uri, type)
-          request = "Net::HTTP::#{type}.new(#{uri})".constantize
+        def setup_request(uri, type, body = nil, headers = nil)
+          request = Object.const_get("Net::HTTP::#{type}.new(#{uri})")
           request["Authorization"] = "Bearer #{Vercellus.configuration.token}"
           request["Content-Type"]  = 'application/json' if type == "Post"
+          request = build_headers(request, headers) unless headers.nil?
+          request.body = body unless body.nil?
+          request
+        end
+
+        def build_headers(request, headers)
+          request["X-Now-Digest"]  = headers['x_now_digest'] if headers.key?('x_now_digest')
+          request["Content-Length"]  = headers['content_length'] if headers.key?('content_length')
           request
         end
     end

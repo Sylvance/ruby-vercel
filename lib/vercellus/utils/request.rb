@@ -10,46 +10,62 @@ module Vercellus
     module Request
       module_function
 
-      def get(url, params = {})
-        url = URI("https://api.vercel.com/#{url}")
+      BASE_URL = "https://api.vercel.com/"
 
-        http = Net::HTTP.new(url.host, url.port)
-        http.use_ssl = true
-        http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-
-        request = Net::HTTP::Get.new(url)
-        request["Authorization"] = "Bearer #{Vercellus.configuration.token}"
+      def get(url)
+        uri = URI("#{BASE_URL}#{url}")
+        http = setup_http(uri)
+        request = setup_request(uri, "Get")
 
         response = http.request(request)
         JSON.parse(response.read_body)
       end
 
-      def post(url, params = {}, body = {})
-        response = Faraday.post(
-          "https://api.vercel.com/#{url}",
-          body: body.to_json,
-          params: params,
-          headers: {
-            'Content-Type': "application/json",
-            'Authorization': "Bearer #{Vercellus.configuration.token}"
-          }
-        )
+      def post(url, body, x_now_digest = nil)
+        uri = URI("#{BASE_URL}#{url}")
+        http = setup_http(uri)
+        request = setup_request(uri, "Post")
+        body = body.is_a?(Hash) ? JSON.dump(body) : body
+        request.body = body
+        request["X-Now-Digest"]  = x_now_digest if x_now_digest
 
-        JSON.parse(response.body)
+        response = http.request(request)
+        JSON.parse(response.read_body)
       end
 
-      def delete(url, params = {})
-        response = Faraday.delete(
-          "https://api.vercel.com/#{url}",
-          params: params,
-          headers: {
-            'Content-Type': "application/json",
-            'Authorization': "Bearer #{Vercellus.configuration.token}"
-          }
-        )
+      def patch(url)
+        uri = URI("#{BASE_URL}#{url}")
+        http = setup_http(uri)
+        request = setup_request(uri, "Patch")
 
-        JSON.parse(response.body)
+        response = http.request(request)
+        JSON.parse(response.read_body)
       end
+
+      def delete(url)
+        uri = URI("#{BASE_URL}#{url}")
+        http = setup_http(uri)
+        request = setup_request(uri, "Delete")
+
+        response = http.request(request)
+        JSON.parse(response.read_body)
+      end
+
+      private
+
+        def setup_http(uri)
+          http = Net::HTTP.new(uri.host, uri.port)
+          http.use_ssl = true
+          http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+          http
+        end
+
+        def setup_request(uri, type)
+          request = "Net::HTTP::#{type}.new(#{uri})".constantize
+          request["Authorization"] = "Bearer #{Vercellus.configuration.token}"
+          request["Content-Type"]  = 'application/json' if type == "Post"
+          request
+        end
     end
   end
 end
